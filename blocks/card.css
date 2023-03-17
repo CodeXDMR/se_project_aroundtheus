@@ -8,7 +8,7 @@
   list-style-type: none;
 }
 
-.card {
+.card__list-item {
   background-color: #fff;
   border-radius: 10px;
 }
