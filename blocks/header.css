@@ -1,0 +1,16 @@
+.header {
+  display: flex;
+}
+
+.header__divider {
+  margin: 119px 0 0;
+  position: absolute;
+  width: 100%;
+  border-top: 1px solid #545454b3;
+}
+
+@media screen and (max-width: 635px) {
+  .header__divider {
+    margin: 84px 0 0;
+  }
+}
