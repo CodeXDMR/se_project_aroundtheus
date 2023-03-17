@@ -26,8 +26,8 @@ All the photos used in this project were compressed using
 
 1. Additional whitespace between the bottom of each photo and its description was detected. This was eliminated using **_vertical-align: text-bottom;_**.
 
-   [Graphic Link](./images/readme/issue-WhiteSpace.jpg)
+   [Graphic Link](./images/readme/Issue-WhiteSpace.jpg)
 
 2. A double border was encountered on one of the buttons. The svg image was not exported properly from Figma. A flattened version of the button which included the outline and plus sign was exported instead of just the plus sign.
 
-   [Graphic Link](./images/readme/issue-DoubleBorder.jpg)
+   [Graphic Link](./images/readme/Issue-DoubleBorder.jpg)
