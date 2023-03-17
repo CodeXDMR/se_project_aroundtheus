@@ -1,4 +1,4 @@
-.cards__gallery {
+.card__gallery {
   margin: 47.25px 0 0;
   display: grid;
   justify-content: center;
@@ -48,7 +48,7 @@
 }
 
 @media screen and (max-width: 635px) {
-  .cards__gallery {
+  .card__gallery {
     margin: 36px 0 0;
   }
 }
