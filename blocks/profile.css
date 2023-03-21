@@ -23,7 +23,7 @@
   font-style: normal;
   font-weight: 500;
   font-size: 42px;
-  line-height: 48px;
+  line-height: 1.14;
   grid-area: title;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -86,31 +86,23 @@
   }
 
   .profile__title {
-    font-weight: 500;
     font-size: 22px;
     line-height: 1.21;
   }
 
   .profile__info-explorer {
-    font-weight: 400;
     font-size: 14px;
-    line-height: 1.21;
-    margin: 0 auto 0;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
+    text-align: center;
   }
 
   .profile__edit-button {
     width: 18px;
     height: 18px;
-    margin: auto 0 auto;
   }
 
   .profile__add-button {
     margin: 36px 0 0;
     width: 100%;
-    border: 2px solid #fff;
   }
 }
 
