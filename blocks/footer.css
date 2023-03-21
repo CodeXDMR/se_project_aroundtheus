@@ -11,14 +11,12 @@
   color: #545454;
 }
 
-@media screen and (max-width: 635px) {
+@media screen and (max-width: 675px) {
   .footer {
-    margin: 0 auto;
     padding: 48px 0 36px 0;
+    max-width: calc(100% - 38px);
   }
-
   .footer__text {
     font-size: 14px;
-    color: #545454;
   }
 }

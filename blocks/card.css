@@ -47,8 +47,13 @@
   border: none;
 }
 
-@media screen and (max-width: 635px) {
+.card__like-button:hover {
+  cursor: pointer;
+  opacity: 50%;
+}
+
+@media screen and (max-width: 675px) {
   .card__list {
-    margin: 36px 0 0;
+    margin: 36px auto 0;
   }
 }
