@@ -34,12 +34,12 @@
   background: url(../images/svg/Close-Icon.svg) transparent center no-repeat;
   border: none;
   cursor: pointer;
+  transition: opacity 1s ease-in 0s;
 }
 
 .modal__close:hover {
   cursor: pointer;
   opacity: 60%;
-  transition: opacity 1s ease-in 0s;
 }
 
 .modal__heading {
@@ -83,12 +83,12 @@
   font-size: 18px;
   line-height: 1.2;
   color: #fff;
+  transition: opacity 1s ease-in 0s;
 }
 
 .modal__button:hover {
   cursor: pointer;
   opacity: 80%;
-  transition: opacity 1s ease-in 0s;
 }
 
 @media screen and (max-width: 540px) {

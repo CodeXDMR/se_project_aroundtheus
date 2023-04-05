@@ -39,12 +39,12 @@
     no-repeat;
   border: 1px solid #fff;
   grid-area: button;
+  transition: opacity 1s ease-in 0s;
 }
 
 .profile__edit-button:hover {
   cursor: pointer;
   opacity: 60%;
-  transition: opacity 1s ease-in 0s;
 }
 
 .profile__description {
@@ -67,12 +67,12 @@
   background: url(../images/svg/Add-Button_disabled.svg) transparent center
     no-repeat;
   border: 2px solid #fff;
+  transition: opacity 1s ease-in 0s;
 }
 
 .profile__add-button:hover {
   cursor: pointer;
   opacity: 60%;
-  transition: opacity 1s ease-in 0s;
 }
 
 @media screen and (max-width: 675px) {
