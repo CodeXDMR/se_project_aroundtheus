@@ -107,12 +107,11 @@
     width: 238px;
     height: 46px;
     margin: 15px 0 0;
-    font-weight: 400;
     font-size: 14px;
-    line-height: 1.2;
   }
 
   .modal__heading {
     margin: 0 0 75px 0;
+    font-size: 18px;
   }
 }

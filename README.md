@@ -41,3 +41,5 @@ All the photos used in this project were compressed using
 2. A double border was encountered on one of the buttons. The svg image was not exported properly from Figma. A flattened version of the button which included the outline and plus sign was exported instead of just the plus sign.
 
    [Graphic Link](./images/readme/Issue-DoubleBorder.jpg)
+
+3. Functionality was added to Modal window, allowing users to edit the profile title and description and user configureable cards via Javascript.
