@@ -43,3 +43,7 @@ All the photos used in this project were compressed using
    [Graphic Link](./images/readme/Issue-DoubleBorder.jpg)
 
 3. Functionality was added to Modal window, allowing users to edit the profile title and description and user configureable cards via Javascript.
+
+4. Add and delete cards features were added so that users can add locations and then delete any of the existing cards.
+
+5. Preview Modal was created so users can see a preview immage of each card.
