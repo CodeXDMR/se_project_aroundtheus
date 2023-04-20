@@ -46,4 +46,4 @@ All the photos used in this project were compressed using
 
 4. Add and delete cards features were added so that users can add locations and then delete any of the existing cards.
 
-5. Preview Modal was created so users can see a preview immage of each card.
+5. Preview Modal was created so users can see a preview image of each card.
