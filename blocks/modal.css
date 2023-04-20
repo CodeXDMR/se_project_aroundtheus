@@ -126,7 +126,7 @@
   font-size: 18px;
   line-height: 1.2;
   color: #fff;
-  transition: opacity 1s ease-in 0s;
+  transition: opacity 0.3s ease-in 0s;
 }
 
 .modal__button:hover {

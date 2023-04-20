@@ -110,7 +110,6 @@ function handleProfileEditSubmit(evt) {
   profileTitle.textContent = profileTitleInput.value;
   profileDescription.textContent = profileDescriptionInput.value;
   closeModal(profileEditModal);
-  profileEditForm.reset();
 }
 
 function handleAddCardSubmit(evt) {
@@ -127,6 +126,8 @@ function handleAddCardSubmit(evt) {
 // Edit Profile
 profileEditButton.addEventListener("click", () => {
   openModal(profileEditModal);
+  profileTitleInput.value = profileTitle.textContent;
+  profileDescriptionInput.value = profileDescription.textContent;
 });
 
 profileEditForm.addEventListener("submit", handleProfileEditSubmit);
