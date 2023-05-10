@@ -68,27 +68,38 @@
           aria-label="Modal Close Button"
         ></button>
         <h2 class="modal__heading">Edit profile</h2>
-        <form class="modal__form">
+        <form class="modal__form" id="edit-card-form">
           <input
             type="text"
             class="modal__input"
             id="profile-title-input"
             name="title"
             placeholder="Name"
+            minlength="2"
+            maxlength="40"
             required
           />
+          <span
+            class="modal__input_error"
+            id="profile-title-input-error"
+          ></span>
           <input
             type="text"
             class="modal__input"
             id="profile-description-input"
             name="description"
             placeholder="Description"
+            minlength="2"
+            maxlength="200"
             required
           />
+          <span class="modal__input_error" id="profile-description-input-error">
+          </span>
           <button
-            class="modal__button"
+            class="modal__button modal__button_disabled"
             type="submit"
             aria-label="Modal Save Button"
+            disabled
           >
             Save
           </button>
@@ -114,8 +125,13 @@
             id="add-card-title-input"
             name="title"
             placeholder="Title"
+            minlength="1"
+            maxlength="30"
             required
           />
+          <span class="modal__input_error" id="add-card-title-input-error">
+          </span>
+
           <input
             type="url"
             class="modal__input modal__input_type_URL"
@@ -124,10 +140,12 @@
             placeholder="Image Link"
             required
           />
+          <span class="modal__input_error" id="add-card-modal-URL-error"></span>
           <button
-            class="modal__button"
+            class="modal__button modal__button_disabled"
             type="submit"
             aria-label="Modal Save Button"
+            disabled
           >
             Save
           </button>
@@ -179,6 +197,7 @@
       </li>
     </template>
 
-    <script src="./scripts/index.js" defer></script>
+    <script defer src="./scripts/index.js"></script>
+    <script defer src="./scripts/validate.js"></script>
   </body>
 </html>

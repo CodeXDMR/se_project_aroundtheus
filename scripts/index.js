@@ -27,6 +27,8 @@ const initialCards = [
 
 /* -------------------------------- VARIABLES ------------------------------- */
 
+// let modal = [...document.querySelectorAll(".modal")];
+
 const profileEditButton = document.querySelector("#profile-edit-button");
 const profileEditModal = document.querySelector("#profile-edit-modal");
 const profileModalClose = profileEditModal.querySelector(
@@ -59,6 +61,19 @@ const previewImageModalClose = document.querySelector("#preview-modal-close");
 const cardPreviewTitle = document.querySelector("#card-preview-title");
 const previewImage = document.querySelector("#card-preview-image");
 
+const closeModalEscKey = (evt) => {
+  if (evt.key === "Escape") {
+    const openModal = document.querySelector(".modal__open");
+    closeModal(openModal);
+  }
+};
+
+const closeModalClick = (evt) => {
+  if (evt.target === evt.currentTarget) {
+    closeModal(evt.currentTarget);
+  }
+};
+
 /* -------------------------------- FUNCTIONS ------------------------------- */
 
 function renderCard(cardData, wrapper) {
@@ -68,10 +83,14 @@ function renderCard(cardData, wrapper) {
 
 function openModal(modal) {
   modal.classList.add("modal__open");
+  document.addEventListener("keydown", closeModalEscKey);
+  modal.addEventListener("mousedown", closeModalClick);
 }
 
 function closeModal(modal) {
   modal.classList.remove("modal__open");
+  document.removeEventListener("keydown", closeModalEscKey);
+  modal.removeEventListener("mousedown", closeModalClick);
 }
 
 function getCardElement(data) {
