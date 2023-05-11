@@ -29,6 +29,8 @@ const initialCards = [
 
 // let modal = [...document.querySelectorAll(".modal")];
 
+const button = document.querySelector("#submit-button");
+
 const profileEditButton = document.querySelector("#profile-edit-button");
 const profileEditModal = document.querySelector("#profile-edit-modal");
 const profileModalClose = profileEditModal.querySelector(
@@ -138,6 +140,9 @@ function handleAddCardSubmit(evt) {
   renderCard({ name, link }, cardsWrap);
   closeModal(addCardModal);
   addCardModalForm.reset();
+  const inputEls = [...addCardModal.querySelectorAll(".modal__input")];
+  const submitButton = addCardModal.querySelector(".modal__button");
+  toggleButtonState(inputEls, submitButton, config);
 }
 
 /* ----------------------------- EVENT LISTENERS ---------------------------- */
