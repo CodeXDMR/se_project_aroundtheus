@@ -49,3 +49,5 @@ All the photos used in this project were compressed using
 5. Preview Modal was created so users can see a preview image of each card.
 
 6. Added validation scripts on the text input fields for the profile info edit popup and the add new card popup.
+
+7. Refactored code using class objects, created separate js files, Card.js and FormValidator.js.
