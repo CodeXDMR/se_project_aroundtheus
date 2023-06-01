@@ -1,6 +1,6 @@
 # Project 3: Around The U.S.
 
-GitHub Pages - [Link](https://dieter69.github.io/se_project_aroundtheus/)</br></br>
+GitHub Pages - [Link](https://codexdmr.github.io/se_project_aroundtheus/)</br></br>
 
 ### Overview
 
