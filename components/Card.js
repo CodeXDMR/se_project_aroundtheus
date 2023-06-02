@@ -63,11 +63,6 @@ export default class Card {
 
     this._setEventListeners();
 
-    this._cardElement.querySelector(
-      ".card__image"
-    ).style.backgroundImage = `url(${this._link})`;
-    this._cardElement.querySelector(".card__title").textContent = this._name;
-
     return this._cardElement;
   }
 }

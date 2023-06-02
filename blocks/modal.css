@@ -67,24 +67,6 @@
   opacity: 60%;
 }
 
-.modal__preview-close {
-  width: 40px;
-  height: 40px;
-  padding: 0;
-  position: absolute;
-  bottom: calc(100% + 5px);
-  left: calc(100% + 5px);
-  background: url(../images/svg/Close-Icon.svg) transparent center no-repeat;
-  border: none;
-  cursor: pointer;
-  transition: opacity 0.3s ease-in 0s;
-}
-
-.modal__preview-close:hover {
-  cursor: pointer;
-  opacity: 60%;
-}
-
 .modal__heading {
   margin: 0 0 54px 0;
   font-style: normal;
