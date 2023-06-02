@@ -39,11 +39,6 @@ const config = {
 
 /* ------------------------ VARIABLES ------------------------ */
 
-// // Card Template
-// const cardTemplate =
-//   document.querySelector("#card-template").content.firstElementChild;
-// const cardSelector = "#card-template";
-
 // Card Wrapper
 const cardsWrap = document.querySelector(".card__list");
 
@@ -83,8 +78,6 @@ const addCardURLInput = document.querySelector("#add-card-modal-URL");
 // Modal Form_________________________________________________________
 const profileEditForm = document.forms["edit-card-form"];
 const addCardModalForm = document.forms["add-card-form"];
-// const profileEditForm = profileEditModal.querySelector(".modal__form");
-// const addCardModalForm = addCardModal.querySelector(".modal__form");
 
 // Preview Image Modal________________________________________________
 const previewImageModal = document.querySelector("#preview-image-modal");
@@ -190,11 +183,6 @@ addCardButton.addEventListener("click", () => {
 
 //  Submit Add Card
 addCardModalForm.addEventListener("submit", handleAddCardSubmit);
-
-// Close Preview Image Modal
-previewImageModalClose.addEventListener("click", () => {
-  closeModal(previewImageModal);
-});
 
 initialCards.forEach((cardData) => renderCard(cardData, cardsWrap));
 
