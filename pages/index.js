@@ -91,18 +91,6 @@ const addFormValidator = new FormValidator(config, addCardModalForm);
 
 /* ------------------------ FUNCTIONS ------------------------ */
 
-// Generate Card
-function createCard(cardData) {
-  const newCard = new Card(cardData, "#card-template");
-  return newCard;
-}
-
-// Render New Card
-function renderCard(cardData, wrapper) {
-  const card = createCard(cardData);
-  wrapper.prepend(card.getView());
-}
-
 // Open And Close Modal__________________________________
 function openModal(modal) {
   modal.classList.add("modal__open");
@@ -114,6 +102,18 @@ function closeModal(modal) {
   modal.classList.remove("modal__open");
   document.removeEventListener("keydown", closeModalEscKey);
   modal.removeEventListener("mousedown", closeModalClick);
+}
+
+// Generate Card
+function createCard(cardData) {
+  const newCard = new Card(cardData, "#card-template");
+  return newCard;
+}
+
+// Render New Card
+function renderCard(cardData, wrapper) {
+  const card = createCard(cardData);
+  wrapper.prepend(card.getView());
 }
 
 export { openModal };
