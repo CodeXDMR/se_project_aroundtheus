@@ -14,9 +14,13 @@ export default class FormValidator {
   }
 
   _showInputError(inputEl) {
+    // Generate error for target element
     const errorMessageEl = this._form.querySelector(`#${inputEl.id}-error`);
+    // Add input error to input element class list
     inputEl.classList.add(this._inputErrorClass);
+    // Change error message text
     errorMessageEl.textContent = inputEl.validationMessage;
+    // Add error message to class list.
     errorMessageEl.classList.add(this._errorClass);
   }
 
@@ -35,9 +39,17 @@ export default class FormValidator {
     }
   }
 
+  // Check if the input element is invalid
+  // _checkValidity(inputElement) {
+  //   return !inputElement.validity.valid;
+  // }
+
   _hasInvalidInput() {
     return !this._inputList.every((inputEl) => inputEl.validity.valid);
   }
+
+  // _hasInvalidInput = () =>
+  //   Array.from(this._inputList).some(this._checkValidity);
 
   _disableButton() {
     this._submitButton.classList.add(this._inactiveButtonClass);

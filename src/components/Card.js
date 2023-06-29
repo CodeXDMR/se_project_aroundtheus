@@ -1,14 +1,15 @@
-import { openModal } from "../pages/index.js";
+// import { openModal } from "../utils/utils.js";
 
-const previewImageModal = document.querySelector("#preview-image-modal");
-const modalImage = previewImageModal.querySelector(".modal__preview-image");
-const modalCaption = previewImageModal.querySelector(".modal__preview-title");
+// const previewImageModal = document.querySelector("#preview-image-modal");
+// const modalImage = previewImageModal.querySelector(".modal__preview-image");
+// const modalCaption = previewImageModal.querySelector(".modal__preview-title");
 
 export default class Card {
-  constructor(cardData, cardSelector) {
+  constructor({ cardData, handleImageClick }, cardSelector) {
     this._name = cardData.name;
     this._link = cardData.link;
     this._cardSelector = cardSelector;
+    this._handleImageClick = handleImageClick;
   }
 
   _getTemplate() {
@@ -29,9 +30,14 @@ export default class Card {
     this._deleteButton.addEventListener("click", () =>
       this._handleDeleteCard()
     );
+
+    this._cardImage = this._cardElement.querySelector(".card__image");
     this._cardImage.addEventListener("click", () =>
-      this._handlePreviewPicture()
+      this._handleImageClick({ link: this._link, name: this._name })
     );
+    // this._cardImage.addEventListener("click", () =>
+    //   this._handlePreviewPicture()
+    // );
   }
 
   _handleLikeIcon() {
@@ -43,12 +49,12 @@ export default class Card {
     this._cardElement = null;
   }
 
-  _handlePreviewPicture() {
-    openModal(previewImageModal);
-    modalImage.src = this._cardImage.src;
-    modalImage.alt = this._cardImage.alt;
-    modalCaption.textContent = this._cardTitle.textContent;
-  }
+  // _handlePreviewPicture() {
+  //   openModal(previewImageModal);
+  //   modalImage.src = this._cardImage.src;
+  //   modalImage.alt = this._cardImage.alt;
+  //   modalCaption.textContent = this._cardTitle.textContent;
+  // }
 
   getView() {
     this._cardElement = this._getTemplate();
@@ -57,6 +63,7 @@ export default class Card {
       ".card__delete-button"
     );
     this._cardImage = this._cardElement.querySelector(".card__image");
+
     this._cardTitle = this._cardElement.querySelector(".card__title");
 
     this._fillCardData();

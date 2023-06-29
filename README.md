@@ -1,4 +1,4 @@
-# Project 3: Around The U.S.
+# Project 8: Around The U.S.
 
 GitHub Pages - [Link](https://codexdmr.github.io/se_project_aroundtheus/)</br></br>
 
@@ -51,3 +51,5 @@ All the photos used in this project were compressed using
 6. Added validation scripts on the text input fields for the profile info edit popup and the add new card popup.
 
 7. Refactored code using class objects, created separate js files, Card.js and FormValidator.js.
+
+8. Continued to refactor code and installed webpack.

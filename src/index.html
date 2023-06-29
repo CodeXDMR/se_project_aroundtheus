@@ -10,15 +10,14 @@
       content="Jacque Cousteau, Yosemite Valley, Lake Louise, Bald Mountains, Latemar, Vanoise National Park, Lago di Braies"
     />
     <title>Around the U.S.</title>
-    <link rel="shortcut icon" href="favicon.ico" />
-    <link rel="stylesheet" href="./pages/index.css" />
+    <link rel="shortcut icon" href="./images/favicon.ico" />
   </head>
 
   <body class="page">
     <div class="page__section">
       <header class="header page__section">
         <img
-          src="images/svg/logo.svg"
+          src="<%=require('./images/svg/logo.svg')%>"
           alt="Around U.S. Logo"
           class="header__logo"
         />
@@ -27,7 +26,7 @@
       <main class="content">
         <section class="profile page__section">
           <img
-            src="images/jpg/jacques-cousteau.jpg"
+            src="<%=require('./images/jpg/jacques-cousteau.jpg')%>"
             alt="Avatar"
             class="profile__avatar"
           />
@@ -73,7 +72,7 @@
             type="text"
             class="modal__input"
             id="profile-title-input"
-            name="title"
+            name="name"
             placeholder="Name"
             minlength="2"
             maxlength="40"
@@ -122,7 +121,7 @@
             type="text"
             class="modal__input modal__input_type_title"
             id="add-card-title-input"
-            name="title"
+            name="name"
             placeholder="Title"
             minlength="1"
             maxlength="30"
@@ -194,6 +193,5 @@
         </div>
       </li>
     </template>
-    <script src="./pages/index.js" type="module"></script>
   </body>
 </html>
