@@ -1,6 +1,7 @@
 # Project 8: Around The U.S.
 
-GitHub Pages - [Link](https://codexdmr.github.io/se_project_aroundtheus/)</br></br>
+GitHub Pages - [Link](https://codexdmr.github.io/se_project_aroundtheus/)
+</br></br>
 
 ### Overview
 
