@@ -8,7 +8,8 @@ GitHub Pages - [Link](https://codexdmr.github.io/se_project_aroundtheus/)
 - Intro
 - Figma
 - Images
-- Notes</br></br>
+- Notes
+</br></br>
 
 **_Intro_**
 
