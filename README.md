@@ -9,7 +9,7 @@ GitHub Pages - [Link](https://codexdmr.github.io/se_project_aroundtheus/)
 - Figma
 - Images
 - Notes
-</br></br>
+  </br></br>
 
 **_Intro_**
 
@@ -57,3 +57,5 @@ All the photos used in this project were compressed using
 7. Refactored code using class objects, created separate js files, Card.js and FormValidator.js.
 
 8. Continued to refactor code and installed webpack.
+
+9. Help.
