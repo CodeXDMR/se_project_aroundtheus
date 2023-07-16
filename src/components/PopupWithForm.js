@@ -40,9 +40,3 @@ class PopupWithForm extends Popup {
 }
 
 export default PopupWithForm;
-
-// index.js
-// const newCardPopup = new PopupWithForm("#add-card-modal", () => {});
-// newCardPopup.open();
-
-// newCardPopup.close();

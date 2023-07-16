@@ -1,12 +1,21 @@
 /* --------------------- IMPORT CLASSES --------------------- */
 import "./index.css";
+import Api from "../components/Api.js";
 import Card from "../components/Card.js";
-import PopupWithImage from "../components/PopupWithImage.js";
-import PopupWithForm from "../components/PopupWithForm.js";
-import UserInfo from "../components/UserInfo.js";
 import FormValidator from "../components/FormValidator.js";
+import PopupWithForm from "../components/PopupWithForm.js";
+import PopupWithImage from "../components/PopupWithImage.js";
 import Section from "../components/Section.js";
-import { initialCards, selectors, config } from "../utils/constants.js";
+import UserInfo from "../components/UserInfo.js";
+import { selectors, config } from "../utils/constants.js";
+
+const api = new Api({
+  baseUrl: "https://around.nomoreparties.co/v1/cohort-3-en",
+  headers: {
+    authorization: "0d34a92c-1da7-4adc-abc0-e2b3b38a4b1f",
+    "Content-Type": "application/json",
+  },
+});
 
 // Find Profile and Add Card buttons.
 const profileEditButton = document.querySelector("#profile-edit-button");
@@ -29,6 +38,8 @@ const editFormValidator = new FormValidator(config, profileEditForm);
 
 /* --------------------- Card Handler --------------------- */
 
+let cardSection;
+
 // Create image Popup instance.
 const cardPreviewPopup = new PopupWithImage(selectors.previewPopup);
 
@@ -48,34 +59,49 @@ function createCard(cardData) {
 }
 
 // Create a section of cards
-const cardSection = new Section(
-  {
-    items: initialCards,
-    renderer: (cardData) => {
-      // Create a new card
-      const cardElement = createCard(cardData);
+api.getInitialCards().then((cardData) => {
+  const cardSection = new Section(
+    {
+      items: cardData,
+      renderer: (cardData) => {
+        // Create a new card
+        const cardElement = createCard(cardData);
 
-      // Display each card
-      cardSection.addItem(cardElement);
+        // Display each card
+        cardSection.addItem(cardElement);
+      },
     },
-  },
-  selectors.cardsList
-);
-cardSection.renderItems(initialCards);
+    selectors.cardsList
+  );
+  cardSection.renderItems();
+});
 
 /* ------------------- Profile Info ------------------- */
 
-const userInfo = new UserInfo(
-  selectors.profileName,
-  selectors.profileProfession
-);
+const userInfo = new UserInfo({
+  nameSelector: selectors.profileName,
+  jobSelector: selectors.profileProfession,
+});
+
+// api.getUserInfo().then((userData) => console.log(userData));
+
+api.getUserInfo().then((userData) => {
+  userInfo.setUserInfo({
+    name: userData.name,
+    description: userData.about,
+  });
+});
+
 /* --------------------- Edit Card -------------------- */
 
 // Create the edit form instance
-const editFormPopup = new PopupWithForm(selectors.editFormPopup, (values) => {
-  // Add the form's input to the profile section
-  userInfo.setUserInfo(values.name, values.description);
-});
+const editFormPopup = new PopupWithForm(
+  selectors.editFormPopup,
+  ({ name, description }) => {
+    // Add the form's input to the profile section
+    userInfo.setUserInfo({ name, description });
+  }
+);
 
 // Open the modal when users click on the edit button
 profileEditButton.addEventListener("click", () => {
@@ -97,9 +123,11 @@ editFormPopup.setEventListeners();
 /* ------------------- Add Card ------------------- */
 
 const addFormPopup = new PopupWithForm(selectors.addFormPopup, (formData) => {
+  api.addCard(formData).then((res) => console.log(res));
+
   // Create a new card
   const newCard = createCard(formData);
-
+  console.log(formData);
   // Add the new card to the section
   cardSection.addItem(newCard);
 });

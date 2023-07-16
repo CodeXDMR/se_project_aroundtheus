@@ -1,9 +1,3 @@
-// import { openModal } from "../utils/utils.js";
-
-// const previewImageModal = document.querySelector("#preview-image-modal");
-// const modalImage = previewImageModal.querySelector(".modal__preview-image");
-// const modalCaption = previewImageModal.querySelector(".modal__preview-title");
-
 export default class Card {
   constructor({ cardData, handleImageClick }, cardSelector) {
     this._name = cardData.name;
@@ -35,9 +29,6 @@ export default class Card {
     this._cardImage.addEventListener("click", () =>
       this._handleImageClick({ link: this._link, name: this._name })
     );
-    // this._cardImage.addEventListener("click", () =>
-    //   this._handlePreviewPicture()
-    // );
   }
 
   _handleLikeIcon() {
@@ -48,13 +39,6 @@ export default class Card {
     this._cardElement.remove();
     this._cardElement = null;
   }
-
-  // _handlePreviewPicture() {
-  //   openModal(previewImageModal);
-  //   modalImage.src = this._cardImage.src;
-  //   modalImage.alt = this._cardImage.alt;
-  //   modalCaption.textContent = this._cardTitle.textContent;
-  // }
 
   getView() {
     this._cardElement = this._getTemplate();

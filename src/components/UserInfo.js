@@ -1,5 +1,5 @@
 class UserInfo {
-  constructor(nameSelector, jobSelector) {
+  constructor({ nameSelector, jobSelector }) {
     this._name = document.querySelector(nameSelector);
     this._profileDescription = document.querySelector(jobSelector);
   }
@@ -13,7 +13,7 @@ class UserInfo {
   }
 
   // Add profile info to page.
-  setUserInfo(name, description) {
+  setUserInfo({ name, description }) {
     this._name.textContent = name;
     this._profileDescription.textContent = description;
   }
