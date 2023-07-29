@@ -14,6 +14,10 @@ class Api {
     });
   }
 
+  getInfoAPI() {
+    return Promise.all([this.getInitialCardsAPI(), this.getProfileInfoAPI()]);
+  }
+
   // Populate page initially with cards.
   getInitialCardsAPI() {
     return fetch(`${this._baseUrl}/cards`, {
@@ -33,8 +37,8 @@ class Api {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
-        name,
-        about,
+        name: name,
+        about: about,
       }),
     }).then(this._response);
   }
@@ -79,10 +83,6 @@ class Api {
       method: "DELETE",
       headers: this._headers,
     }).then(this._response);
-  }
-
-  getInfo() {
-    return Promise.all([this.getUserInfo(), this.getInitialCards()]);
   }
 
   getImageInfoAPI(cardId) {

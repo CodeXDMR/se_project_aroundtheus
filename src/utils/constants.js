@@ -37,12 +37,12 @@ const selectors = {
 
   profAvatar: "#profile-avatar",
   profName: "#profile-name",
-  profDesc: "#profile-description",
+  profAbout: "#profile-about",
 
   formModalContainer: ".modal__container",
   imageModalContainer: ".modal__popup",
   formInputName: "#name",
-  formInputDesc: "#profession",
+  formInputAbout: "#profession",
 };
 
 const config = {

@@ -1,34 +1,31 @@
 class UserInfo {
   constructor({
     profNameSelector,
-    profDescSelector,
+    profAboutSelector,
     profAvatarSelector,
-    userID,
+    // userID,
   }) {
     this._profName = document.querySelector(profNameSelector);
-    this._profDesc = document.querySelector(profDescSelector);
+    this._profAbout = document.querySelector(profAboutSelector);
     this._profAvatar = document.querySelector(profAvatarSelector);
-    this._userID = userID;
+    // this._userID = userID;
   }
 
   // Get profile info from page.
   getProfileInfo() {
     return {
       name: this._profName.textContent,
-      description: this._profDesc.textContent,
-      // avatar: this._profAvatar.src,
-      userID: this._userID,
+      about: this._profAbout.textContent,
     };
   }
 
   // Add profile info to page.
-  setProfileInfo({ name, description, avatar, userID }) {
+  setProfileInfo({ name, about }) {
     this._profName.textContent = name;
-    this._profDesc.textContent = description;
-    this._profAvatar.src = avatar;
-    this._userID = userID;
+    this._profAbout.textContent = about;
 
-    console.log(userID);
+    // console.log(name);
+    // console.log(about);
   }
 
   getMyID() {
@@ -46,7 +43,7 @@ class UserInfo {
 
   setAvatar(imgLink) {
     this._profAvatar.src = imgLink;
-    console.log(imgLink);
+    // console.log(imgLink);
   }
 }
 export default UserInfo;

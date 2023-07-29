@@ -31,7 +31,7 @@ class PopupWithForm extends Popup {
   }
 
   setEventListeners() {
-    super.setEventListeners();
+    super.addEventListeners();
     this._popupForm.addEventListener("submit", (event) => {
       event.preventDefault();
       this._handleFormSubmit(this._getInputValues());
@@ -39,15 +39,15 @@ class PopupWithForm extends Popup {
     });
   }
 
-  _handleSubmit = () => {
-    const inputValues = this._getInputValues();
-    this._handleFormSubmit(inputValues);
-  };
+  // setEventListeners() {
+  //   super.addEventListeners();
+  //   this._popupForm.addEventListener("submit", this._handleSubmit);
+  // }
 
-  setEventListeners() {
-    super.addEventListeners();
-    this._popupForm.addEventListener("submit", this._handleSubmit);
-  }
+  // _handleSubmit = () => {
+  //   const inputValues = this._getInputValues();
+  //   this._handleFormSubmit(inputValues);
+  // };
 
   open() {
     super.open();

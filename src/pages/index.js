@@ -22,12 +22,12 @@ const api = new Api({
 const editAvatButton = document.querySelector("#profile-avatar-container");
 const editProfButton = document.querySelector("#profile-edit-button");
 const addCardButton = document.querySelector("#add-card-button");
-const delCardButton = document.querySelector("#delete-card-button");
-// console.log(delCardButton);
+const delCardButton = document.querySelector("#card-delete-button");
+console.log(delCardButton);
 
 // Find edit form input elements.
 const profNameInput = document.querySelector("#profile-title-input");
-const profDescInput = document.querySelector("#profile-description-input");
+const profAboutInput = document.querySelector("#profile-about-input");
 
 //  Find form elements.
 const profEditForm = document.forms["edit-card-form"];
@@ -44,17 +44,86 @@ const avatEditFormValidator = new FormValidator(config, avatEditForm);
 
 let cardSection;
 let card;
-let cardId;
-let userID;
+// let cardId;
+let userData;
 
+/* ------------------- Profile Info ------------------- */
+
+const userInfo = new UserInfo({
+  profNameSelector: selectors.profName,
+  profAboutSelector: selectors.profAbout,
+  profAvatarSelector: selectors.profAvatar,
+});
+
+// console.log(userInfo);
+// console.log(userInfo._id);
+
+// Fetches user API data and sets to Profile Info.
+// api.getProfileInfoAPI().then((userData) => {
+//   userInfo.setProfileInfo({
+//     name: userData.name,
+//     description: userData.about,
+//     avatar: userData.avatar,
+//     userID: userData._id,
+//   });
+//   console.log(userData);
+// });
+
+const editProfInfo = new PopupWithForm(
+  selectors.editProfFormModal,
+  handleProfEditSubmit,
+  "Save",
+  "Saving..."
+);
+
+function handleProfEditSubmit({ name, about }) {
+  editProfInfo.showLoading();
+  api
+    .setProfileInfoAPI(name, about)
+    .then((dataAPI) => {
+      userInfo.setProfileInfo({
+        name: name,
+        about: about,
+        // userID
+      });
+      console.log(name);
+      console.log(about);
+
+      editProfInfo.close();
+    })
+    .finally(() => {
+      editProfInfo.hideLoading();
+    });
+}
+
+editProfButton.addEventListener("click", () => {
+  // Open the avatar edit modal form
+  editProfInfo.open();
+
+  // Add the profile info from the page to the form's fields
+  const profInfo = userInfo.getProfileInfo();
+  profNameInput.value = profInfo.name;
+  profAboutInput.value = profInfo.about;
+
+  // Reset validation for the avatar edit modal form
+  editFormValidator.resetForm();
+});
+
+editProfInfo.setEventListeners();
 // Receives card data(cardData) from API and renders data to cards.
-api.getInitialCardsAPI().then((cardData) => {
+api.getInfoAPI().then(([cardData, userData]) => {
   cardSection = new Section(
     {
       items: cardData,
       renderer: (cardData) => {
         // Renders a new card
-        const card = createCard(cardData);
+        const card = createCard(cardData, userData._id);
+        // console.log(cardData);
+        // console.log(userData);
+        // console.log(userData.about);
+        // console.log(userData.name);
+        // console.log(userData._id);
+        // console.log(card);
         // console.log(cardData);
 
         // Adds each rendered card to the DOM.
@@ -67,25 +136,29 @@ api.getInitialCardsAPI().then((cardData) => {
   // Renders each card via Section.js to the DOM.
   cardSection.renderItems();
   // console.log(cardSection);
+  const name = userData.name;
+  const about = userData.about;
+  userInfo.setProfileInfo({ name, about });
+  userInfo.setAvatar(userData.avatar);
+  console.log(userData.name);
 });
 
 /* -------------------Create Card Handler --------------------- */
 
 // This function creates a new card
 // cardData = {API data from card.}
-function createCard(cardData) {
+function createCard(cardData, userData) {
   const cardSelector = selectors.cardTemplate;
-  // userID = userInfo._id;
   // console.log(userData);
   card = new Card(
     cardData,
     cardSelector,
     handleImageClick,
-    handleDeleteCardPopup,
+    handleDeleteCardPopup
     // handleLikeClick,
-    cardId
+    // cardId
   );
-
+  // console.log(card._cardId);
   // console.log(cardData);
   return card.getView();
 }
@@ -108,29 +181,45 @@ const deleteCardModal = new PopupConfirm(
   "Deleting..."
 );
 
-function handleDeleteCard() {
-  handleDeleteCardPopup(card);
+/* -----------Function with setSubmitAction()------------*/
+
+// function handleDeleteCard(card) {
+//   deleteCardModal.showLoading();
+//   deleteCardModal.setSubmitAction(() => {
+//     const cardId = card._cardId;
+//     api
+//       .deleteCardAPI(cardId)
+//       .then((res) => {
+//         card.handleDeleteCard(this);
+//         deleteCardModal.close();
+//       })
+//       .finally(() => {
+//         deleteCardModal.hideLoading();
+//       });
+//   });
+// }
+
+/* -----------Function without setSubmitAction()------------*/
+
+function handleDeleteCard(card) {
   deleteCardModal.showLoading();
-  deleteCardModal.setSubmitAction((card) => {
-    const cardId = card._cardId;
-    api
-      .deleteCardAPI(cardId)
-      .then((res) => {
-        card.handleDeleteCard();
-        deleteCardModal.close();
-      })
-      .finally(() => {
-        deleteCardModal.hideLoading();
-      });
-  });
+  console.log(card);
+  api
+    .deleteCardAPI(card._cardId)
+    .then((res) => {
+      card.handleDeleteCard();
+      deleteCardModal.close();
+    })
+    .finally(() => {
+      deleteCardModal.hideLoading();
+    });
 }
 
 function handleDeleteCardPopup(card) {
   deleteCardModal.open(card);
   console.log(card);
-  console.log(cardId);
+  console.log(card._cardId);
 }
-deleteCardModal.setEventListeners();
 
 // delCardButton.addEventListener("click", () => {
 //   // Open the add card form
@@ -138,76 +227,12 @@ deleteCardModal.setEventListeners();
 //   // Reset validation for the add card form
 //   // addFormValidator.resetForm();
 // });
-
+deleteCardModal.setEventListeners();
 /* ------------------- Profile Info ------------------- */
 
 /* ------------------- Profile Info ------------------- */
 
 /* ------------------- Profile Info ------------------- */
-
-/* ------------------- Profile Info ------------------- */
-
-const userInfo = new UserInfo({
-  profNameSelector: selectors.profName,
-  profDescSelector: selectors.profDesc,
-  profAvatarSelector: selectors.profAvatar,
-  userID,
-});
-
-console.log(userInfo);
-console.log(userInfo._id);
-
-// Fetches user API data and sets to Profile Info.
-api.getProfileInfoAPI().then((userData) => {
-  userInfo.setProfileInfo({
-    name: userData.name,
-    description: userData.about,
-    avatar: userData.avatar,
-    userID: userData._id,
-  });
-  console.log(userData);
-});
-
-const editProfInfo = new PopupWithForm(
-  selectors.editProfFormModal,
-  handleProfileSubmit,
-  "Save",
-  "Saving..."
-);
-
-function handleProfileSubmit({ name, description }) {
-  editProfInfo.showLoading();
-  api
-    .setProfileInfoAPI(name, description)
-    .then((dataAPI) => {
-      userInfo.setProfileInfo({
-        name,
-        description,
-        // avatar: dataAPI.avatar,
-        userID: dataAPI._id,
-      });
-      console.log(dataAPI);
-      editProfInfo.close();
-    })
-    .finally(() => {
-      editProfInfo.hideLoading();
-    });
-}
-
-editProfButton.addEventListener("click", () => {
-  // Open the avatar edit modal form
-  editProfInfo.open();
-
-  // Add the profile info from the page to the form's fields
-  const profInfo = userInfo.getProfileInfo();
-  profNameInput.value = profInfo.name;
-  profDescInput.value = profInfo.description;
-
-  // Reset validation for the avatar edit modal form
-  editFormValidator.resetForm();
-});
-
-editProfInfo.setEventListeners();
 
 /* --------------- Edit Avatar Card --------------- */
 

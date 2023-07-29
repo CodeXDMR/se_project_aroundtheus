@@ -18,7 +18,7 @@ class Card {
     this._handleDeleteCardPopup = handleDeleteCardPopup;
     this._handleLikeClick = handleLikeClick;
     // console.log(this._cardOwnerID);
-    console.log(this._userID);
+    // console.log(this._cardOwnerID);
     // console.log(this._cardId);
   }
 
@@ -56,9 +56,9 @@ class Card {
     this._cardTitle.textContent = this._imageName;
     this._cardElement.id = this.imageID;
 
-    // if (this._myID !== this._cardOwnerID) {
-    //   this._cardElement.querySelector(".card__delete-button").remove();
-    // }
+    if (this._userID === this._cardOwnerID) {
+      this._cardElement.querySelector(".card__delete-button").remove();
+    }
   }
 
   _setEventListeners() {
@@ -73,7 +73,7 @@ class Card {
     );
 
     // Filters delete button on the card list.
-    if (this._myID !== this._cardOwnerID) {
+    if (this._userID !== this._cardOwnerID) {
       this._cardElement
         .querySelector(".card__delete-button")
         .addEventListener("click", () => {
@@ -119,7 +119,6 @@ class Card {
     this._cardTitle = this._cardElement.querySelector(".card__title");
 
     this._fillCardData();
-
     this._setEventListeners();
     return this._cardElement;
   }
