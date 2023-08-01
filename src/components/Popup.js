@@ -6,32 +6,41 @@ class Popup {
 
   open() {
     this._popupElement.classList.add("modal__open");
-    document.addEventListener("keydown", this._handleEscClose);
+    this.addEventListeners();
   }
 
   close() {
     this._popupElement.classList.remove("modal__open");
-    document.removeEventListener("keydown", this._handleEscClose);
+    this.removeEventListeners();
   }
 
-  setEventListeners() {
-    this._popupElement.addEventListener("click", (evt) => {
-      if (evt.target === evt.currentTarget) {
-        this.close();
-      }
-    });
-
-    // Closes modal window via close button.
-    const closeButton = this._popupElement.querySelector(".modal__close");
-    closeButton.addEventListener("click", () => {
+  _handleClickClose = (evt) => {
+    if (evt.target === evt.currentTarget) {
       this.close();
-    });
-  }
+    }
+  };
 
   _handleEscClose(evt) {
     if (evt.key === "Escape") {
       this.close();
     }
+  }
+
+  addEventListeners() {
+    // Closes modal window via close button.
+    const closeButton = this._popupElement.querySelector(
+      ".modal__close-button"
+    );
+    closeButton.addEventListener("click", () => {
+      this.close();
+    });
+    this._popupElement.addEventListener("click", this._handleClickClose);
+    document.addEventListener("keydown", this._handleEscClose);
+  }
+
+  removeEventListeners() {
+    this._popupElement.removeEventListener("click", this._handleClickClose);
+    document.removeEventListener("keydown", this._handleEscClose);
   }
 }
 export default Popup;
