@@ -7,10 +7,6 @@ class Section {
 
   renderItems() {
     // Renders all elements on the page
-    // this._renderedItems.forEach((item) => {
-    //   this._renderer(item);
-    // });
-    // }
     this._renderedItems.reverse().forEach(this._renderer);
   }
 
