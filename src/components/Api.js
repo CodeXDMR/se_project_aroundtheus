@@ -68,7 +68,7 @@ class Api {
     return fetch(`${this._baseUrl}/cards/${cardId}`, {
       method: "DELETE",
       headers: this._headers,
-    }).then(console.log(cardId));
+    }).then(this._response);
   }
 
   addLikeAPI(cardId) {
@@ -81,12 +81,6 @@ class Api {
   removeLikeAPI(cardId) {
     return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
       method: "DELETE",
-      headers: this._headers,
-    }).then(this._response);
-  }
-
-  getImageInfoAPI(cardId) {
-    return fetch(`${this.baseUrl}/cards/${cardId}`, {
       headers: this._headers,
     }).then(this._response);
   }

@@ -76,6 +76,10 @@
   color: #000;
 }
 
+.modal__heading_confirm {
+  margin: 0 0 20px 0;
+}
+
 .modal__form {
   width: 358px;
   display: flex;
@@ -165,6 +169,9 @@
   .modal__heading {
     margin: 0 0 75px 0;
     font-size: 18px;
+  }
+  .modal__heading_confirm {
+    margin: 0 0 20px 0;
   }
 
   .modal__preview-close {

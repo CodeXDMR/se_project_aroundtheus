@@ -10,7 +10,7 @@
       content="Jacque Cousteau, Yosemite Valley, Lake Louise, Bald Mountains, Latemar, Vanoise National Park, Lago di Braies"
     />
     <title>Around the U.S.</title>
-    <link rel="shortcut icon" href="./images/favicon.ico?v=2" />
+    <link rel="shortcut icon" href="./images/favicon.ico" />
   </head>
 
   <body class="page">
@@ -27,7 +27,7 @@
         <section class="profile page__section">
           <div class="profile__avatar-container" id="profile-avatar-container">
             <img
-              src="<%=require('./images/jpg/jacques-cousteau.jpg')%>"
+              src="<%=require('./images/jpg/blank-avatar.jpg')%>"
               alt="Avatar"
               class="profile__avatar"
               id="profile-avatar"
@@ -40,14 +40,14 @@
             />
           </div>
           <div class="profile__info">
-            <h1 class="profile__name" id="profile-name">Jacques Cousteau</h1>
+            <h1 class="profile__name" id="profile-name"></h1>
             <button
               class="profile__edit-button"
               id="profile-edit-button"
               type="button"
               aria-label="Edit Button"
             ></button>
-            <p class="profile__about" id="profile-about">Explorer</p>
+            <p class="profile__about" id="profile-about"></p>
           </div>
           <button
             class="profile__add-button"
@@ -72,7 +72,7 @@
       <div class="modal__container">
         <button
           class="modal__close-button"
-          id="add-card-modal-close"
+          id="avatar-card-modal-close"
           type="button"
           aria-label="Modal Close Button"
         ></button>
@@ -205,10 +205,11 @@
           type="button"
           aria-label="Modal Close Button"
         ></button>
-        <h2 class="modal__heading">Are you sure?</h2>
+        <h2 class="modal__heading modal__heading_confirm">Are you sure?</h2>
         <form class="modal__form" id="delete-card-form">
           <button
             class="modal__button-submit"
+            id="modal-delete-card-button"
             type="submit"
             aria-label="Modal Save Button"
           >
@@ -260,7 +261,7 @@
               type="button"
               aria-label="Like Button"
             ></button>
-            <span class="card__like-count">0</span>
+            <span class="card__like-counter">0</span>
           </div>
         </div>
       </li>

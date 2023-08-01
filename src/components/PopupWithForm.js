@@ -8,7 +8,6 @@ class PopupWithForm extends Popup {
     this._handleFormSubmit = handleFormSubmit;
     this._buttonText = buttonText;
     this._loadingButtonText = loadingButtonText;
-    // console.log(popupSelector);
   }
 
   showLoading() {
@@ -39,20 +38,9 @@ class PopupWithForm extends Popup {
     });
   }
 
-  // setEventListeners() {
-  //   super.addEventListeners();
-  //   this._popupForm.addEventListener("submit", this._handleSubmit);
-  // }
-
-  // _handleSubmit = () => {
-  //   const inputValues = this._getInputValues();
-  //   this._handleFormSubmit(inputValues);
-  // };
-
   open() {
     super.open();
     this._popupForm.reset();
-    this._popupForm.addEventListener("submit", this._handleSubmit);
   }
 
   close() {

@@ -1,14 +1,8 @@
 class UserInfo {
-  constructor({
-    profNameSelector,
-    profAboutSelector,
-    profAvatarSelector,
-    // userID,
-  }) {
+  constructor({ profNameSelector, profAboutSelector, profAvatarSelector }) {
     this._profName = document.querySelector(profNameSelector);
     this._profAbout = document.querySelector(profAboutSelector);
     this._profAvatar = document.querySelector(profAvatarSelector);
-    // this._userID = userID;
   }
 
   // Get profile info from page.
@@ -23,18 +17,6 @@ class UserInfo {
   setProfileInfo({ name, about }) {
     this._profName.textContent = name;
     this._profAbout.textContent = about;
-
-    // console.log(name);
-    // console.log(about);
-  }
-
-  getMyID() {
-    return this._userID;
-  }
-
-  setMyID({ userID }) {
-    this._userID = userID;
-    console.log(userID);
   }
 
   getAvatar() {
@@ -43,7 +25,6 @@ class UserInfo {
 
   setAvatar(imgLink) {
     this._profAvatar.src = imgLink;
-    // console.log(imgLink);
   }
 }
 export default UserInfo;

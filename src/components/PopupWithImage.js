@@ -9,7 +9,7 @@ class PopupWithImage extends Popup {
     this._imageCaption = this._popupElement.querySelector(
       "#modal-preview-title"
     );
-    // console.log(popupSelector);
+
     super.addEventListeners();
   }
 

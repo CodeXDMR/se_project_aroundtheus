@@ -21,6 +21,7 @@
 
 .profile__avatar-container:hover .profile__avatar_edit {
   opacity: 100%;
+  transition: opacity 0.3s ease-in 0s;
 }
 
 .profile__avatar-container:hover .profile__avatar_edit:hover {

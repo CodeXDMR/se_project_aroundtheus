@@ -58,4 +58,4 @@ All the photos used in this project were compressed using
 
 8. Continued to refactor code and installed webpack.
 
-9. Help.
+9. Final code refactoring and setting up API calls.

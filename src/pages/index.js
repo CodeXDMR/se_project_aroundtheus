@@ -22,8 +22,6 @@ const api = new Api({
 const editAvatButton = document.querySelector("#profile-avatar-container");
 const editProfButton = document.querySelector("#profile-edit-button");
 const addCardButton = document.querySelector("#add-card-button");
-const delCardButton = document.querySelector("#card-delete-button");
-console.log(delCardButton);
 
 // Find edit form input elements.
 const profNameInput = document.querySelector("#profile-title-input");
@@ -44,8 +42,38 @@ const avatEditFormValidator = new FormValidator(config, avatEditForm);
 
 let cardSection;
 let card;
-// let cardId;
-let userData;
+
+/* --------------- Edit Avatar Card --------------- */
+
+// Edit profile Avatar thumbnail imageData {avatURL}
+const editAvatPopup = new PopupWithForm(
+  selectors.editAvatFormModal,
+  handleAvatarSubmit,
+  "Save",
+  "Saving..."
+);
+
+function handleAvatarSubmit(imageData) {
+  editAvatPopup.showLoading();
+  api
+    .setAvatarAPI(imageData.avatURL)
+    .then((res) => {
+      userInfo.setAvatar(imageData.avatURL);
+      editAvatPopup.close();
+    })
+    .finally(() => {
+      editAvatPopup.hideLoading();
+    });
+}
+
+editAvatButton.addEventListener("click", () => {
+  // Open the avatar edit modal form
+  editAvatPopup.open();
+  // Reset validation for the avatar edit modal form
+  avatEditFormValidator.resetForm();
+});
+
+editAvatPopup.setEventListeners();
 
 /* ------------------- Profile Info ------------------- */
 
@@ -54,20 +82,6 @@ const userInfo = new UserInfo({
   profAboutSelector: selectors.profAbout,
   profAvatarSelector: selectors.profAvatar,
 });
-
-// console.log(userInfo);
-// console.log(userInfo._id);
-
-// Fetches user API data and sets to Profile Info.
-// api.getProfileInfoAPI().then((userData) => {
-//   userInfo.setProfileInfo({
-//     name: userData.name,
-//     description: userData.about,
-//     avatar: userData.avatar,
-//     userID: userData._id,
-//   });
-//   console.log(userData);
-// });
 
 const editProfInfo = new PopupWithForm(
   selectors.editProfFormModal,
@@ -84,10 +98,7 @@ function handleProfEditSubmit({ name, about }) {
       userInfo.setProfileInfo({
         name: name,
         about: about,
-        // userID
       });
-      console.log(name);
-      console.log(about);
 
       editProfInfo.close();
     })
@@ -110,6 +121,9 @@ editProfButton.addEventListener("click", () => {
 });
 
 editProfInfo.setEventListeners();
+
+/* -------------------Create Initial Cards --------------------- */
+
 // Receives card data(cardData) from API and renders data to cards.
 api.getInfoAPI().then(([cardData, userData]) => {
   cardSection = new Section(
@@ -117,51 +131,50 @@ api.getInfoAPI().then(([cardData, userData]) => {
       items: cardData,
       renderer: (cardData) => {
         // Renders a new card
-        const card = createCard(cardData, userData._id);
-        // console.log(cardData);
-        // console.log(userData);
-        // console.log(userData.about);
-        // console.log(userData.name);
-        // console.log(userData._id);
-        // console.log(card);
-        // console.log(cardData);
+        const cardList = createCard(cardData, userData._id);
 
+        // Filters delete button access based on matching user ID.
+        const userID = userData._id;
+        const cardOwnerID = cardData.owner._id;
+
+        if (userID !== cardOwnerID) {
+          card._removeDeleteButton();
+        }
         // Adds each rendered card to the DOM.
-        cardSection.addItem(card);
-        // console.log(card);
+        cardSection.addItem(cardList);
       },
     },
     selectors.cardsList
   );
+
   // Renders each card via Section.js to the DOM.
   cardSection.renderItems();
-  // console.log(cardSection);
   const name = userData.name;
   const about = userData.about;
   userInfo.setProfileInfo({ name, about });
   userInfo.setAvatar(userData.avatar);
-  console.log(userData.name);
 });
 
 /* -------------------Create Card Handler --------------------- */
 
 // This function creates a new card
-// cardData = {API data from card.}
-function createCard(cardData, userData) {
+// cardData = API data { name, link, likes, owner, _id } from card.
+// userID = API data ID from profile user.
+function createCard(cardData, userID) {
   const cardSelector = selectors.cardTemplate;
-  // console.log(userData);
+
   card = new Card(
     cardData,
     cardSelector,
     handleImageClick,
-    handleDeleteCardPopup
-    // handleLikeClick,
-    // cardId
+    handleDeleteCardPopup,
+    handleLikeClick,
+    userID
   );
-  // console.log(card._cardId);
-  // console.log(cardData);
+
   return card.getView();
 }
+/* ------------------- Preview Popup ------------------- */
 
 // Create image Popup instance.
 const cardPrevPopup = new PopupWithImage(selectors.previewImageModal);
@@ -169,102 +182,7 @@ const cardPrevPopup = new PopupWithImage(selectors.previewImageModal);
 // imageData = {link:, name:}
 function handleImageClick(imageData) {
   cardPrevPopup.open(imageData);
-  // console.log(imageData);
 }
-
-/* ----------------Delete Card Handler --------------------- */
-
-const deleteCardModal = new PopupConfirm(
-  selectors.delCardConfirmModal,
-  handleDeleteCard,
-  "Yes",
-  "Deleting..."
-);
-
-/* -----------Function with setSubmitAction()------------*/
-
-// function handleDeleteCard(card) {
-//   deleteCardModal.showLoading();
-//   deleteCardModal.setSubmitAction(() => {
-//     const cardId = card._cardId;
-//     api
-//       .deleteCardAPI(cardId)
-//       .then((res) => {
-//         card.handleDeleteCard(this);
-//         deleteCardModal.close();
-//       })
-//       .finally(() => {
-//         deleteCardModal.hideLoading();
-//       });
-//   });
-// }
-
-/* -----------Function without setSubmitAction()------------*/
-
-function handleDeleteCard(card) {
-  deleteCardModal.showLoading();
-  console.log(card);
-  api
-    .deleteCardAPI(card._cardId)
-    .then((res) => {
-      card.handleDeleteCard();
-      deleteCardModal.close();
-    })
-    .finally(() => {
-      deleteCardModal.hideLoading();
-    });
-}
-
-function handleDeleteCardPopup(card) {
-  deleteCardModal.open(card);
-  console.log(card);
-  console.log(card._cardId);
-}
-
-// delCardButton.addEventListener("click", () => {
-//   // Open the add card form
-//   deleteCardModal.open();
-//   // Reset validation for the add card form
-//   // addFormValidator.resetForm();
-// });
-deleteCardModal.setEventListeners();
-/* ------------------- Profile Info ------------------- */
-
-/* ------------------- Profile Info ------------------- */
-
-/* ------------------- Profile Info ------------------- */
-
-/* --------------- Edit Avatar Card --------------- */
-
-const editAvatPopup = new PopupWithForm(
-  selectors.editAvatFormModal,
-  handleAvatarSubmit,
-  "Save",
-  "Save..."
-);
-
-function handleAvatarSubmit(imageData) {
-  editAvatPopup.showLoading();
-  api
-    .setAvatarAPI(imageData.avatURL)
-    .then((res) => {
-      userInfo.setAvatar(imageData.avatURL);
-      editAvatPopup.close();
-      console.log(imageData);
-    })
-    .finally(() => {
-      editAvatPopup.hideLoading();
-    });
-}
-
-editAvatButton.addEventListener("click", () => {
-  // Open the avatar edit modal form
-  editAvatPopup.open();
-  // Reset validation for the avatar edit modal form
-  avatEditFormValidator.resetForm();
-});
-
-editAvatPopup.setEventListeners();
 
 /* ------------------- Add Card ------------------- */
 
@@ -281,11 +199,10 @@ function handleAddCardSubmit({ name, link }) {
     .addCardAPI({ name, link })
     .then((card) => {
       // Create a new card
-      const newCard = createCard(card, card._id);
+      const newCard = createCard(card, card.owner._id, card._id);
       // Add the new card to the section
       cardSection.addItem(newCard);
       addCardFormModal.close();
-      console.log(newCard);
     })
     .finally(() => {
       addCardFormModal.hideLoading();
@@ -303,62 +220,46 @@ addCardButton.addEventListener("click", () => {
 addCardFormModal.setEventListeners();
 
 /* ----------------- Delete Card ----------------- */
-// const delCardConfirmModal = new PopupConfirm(
-//   selectors.delCardConfirmModal,
-//   handleDeleteCardClick,
-//   "Yes",
-//   "Deleting..."
-// );
 
-// function handleDeleteCardClick(cardId) {
-//   api.deleteCard().then((res) => {
-//     console.log(res);
-//   });
-// }
+const deleteCardModal = new PopupConfirm(
+  selectors.delCardConfirmModal,
+  handleDeleteCardPopup,
+  "Yes",
+  "Deleting..."
+);
 
-// delCardButton.addEventListener("click", () => {
-//   // Open the add card form
-//   delCardConfirmModal.open();
-//   // Reset validation for the add card form
-//   // addFormValidator.resetForm();
-// });
-// delCardConfirmModal.setEventListeners();
+function handleDeleteCardPopup(card) {
+  deleteCardModal.open();
+  deleteCardModal.setSubmitAction(() => {
+    deleteCardModal.showLoading();
+    api
+      .deleteCardAPI(card._cardId)
+      .then((res) => {
+        card.removeDeleteCard(this);
+        deleteCardModal.close();
+      })
+      .finally(() => {
+        deleteCardModal.hideLoading();
+      });
+  });
+}
+
+deleteCardModal.setEventListeners();
 
 /* ------------------- Likes ------------------- */
 
-// function handleLikeClick(card) {
-//   if (card.isLiked()) {
-//     api
-//       .removeLikeFromAPI(card.imageID)
-//       .then((res) => {
-//         card.setLikes(res.likes);
-//       })
-//       .catch((error) => {
-//         console.error(error);
-//       });
-//   } else {
-//     api
-//       .addLikeToAPI(card.imageID)
-//       .then((res) => {
-//         card.setLikes(res.likes);
-//       })
-//       .catch((error) => {
-//         console.error(error);
-//       });
-//   }
-// }
+function handleLikeClick(card) {
+  if (card.isLiked()) {
+    api.removeLikeAPI(card._cardId).then((res) => {
+      card.setLikes(res.likes);
+    });
+  } else {
+    api.addLikeAPI(card._cardId).then((res) => {
+      card.setLikes(res.likes);
+    });
+  }
+}
 
-// function handleLikeIcon(card) {
-//   if (card.isLiked()) {
-//     api.removeLike(card.imageID).then((res) => {
-//       card.setLikes(res.likes);
-//     });
-//   } else {
-//     api.addLike(card.imageID).then((res) => {
-//       card.setLikes(res.likes);
-//     });
-//   }
-// }
 /* ------------------- Enable Validation ------------------- */
 
 addFormValidator.enableValidation();
