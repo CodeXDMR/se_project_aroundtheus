@@ -25,20 +25,29 @@
 
       <main class="content">
         <section class="profile page__section">
-          <img
-            src="<%=require('./images/jpg/jacques-cousteau.jpg')%>"
-            alt="Avatar"
-            class="profile__avatar"
-          />
+          <div class="profile__avatar-container" id="profile-avatar-container">
+            <img
+              src="<%=require('./images/jpg/blank-avatar.jpg')%>"
+              alt="Avatar"
+              class="profile__avatar"
+              id="profile-avatar"
+            />
+            <img
+              src="<%=require('./images/svg/edit-profile-pencil.svg')%>"
+              alt="Edit Icon"
+              class="profile__avatar_edit"
+              id="profile-avatar-edit-button"
+            />
+          </div>
           <div class="profile__info">
-            <h1 class="profile__title">Jacques Cousteau</h1>
+            <h1 class="profile__name" id="profile-name"></h1>
             <button
               class="profile__edit-button"
               id="profile-edit-button"
               type="button"
               aria-label="Edit Button"
             ></button>
-            <p class="profile__description">Explorer</p>
+            <p class="profile__about" id="profile-about"></p>
           </div>
           <button
             class="profile__add-button"
@@ -49,19 +58,55 @@
         </section>
 
         <section class="card page__section">
-          <ul class="card__list"></ul>
+          <ul class="cards__list" id="cards-list"></ul>
         </section>
       </main>
       <footer class="footer page__section">
         <p class="footer__text">© 2022 Around The U.S.</p>
       </footer>
-
-      <!-- Edit Card Modal -->
     </div>
+
+    <!-- Edit Avatar Modal -->
+
+    <div class="modal" id="profile-avatar-modal">
+      <div class="modal__container">
+        <button
+          class="modal__close-button"
+          id="avatar-card-modal-close"
+          type="button"
+          aria-label="Modal Close Button"
+        ></button>
+        <h2 class="modal__heading">Change profile picture</h2>
+        <form class="modal__form" id="avatar-edit-form">
+          <input
+            type="url"
+            class="modal__input modal__input_type_URL"
+            id="avatar-edit-modal-URL"
+            name="avatURL"
+            placeholder="Image Link"
+            required
+          />
+          <span
+            class="modal__input-error"
+            id="avatar-edit-modal-URL-error"
+          ></span>
+          <button
+            class="modal__button-submit"
+            type="submit"
+            aria-label="Modal Save Button"
+          >
+            Save
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Edit Card Modal -->
+
     <div class="modal" id="profile-edit-modal">
       <div class="modal__container">
         <button
-          class="modal__close"
+          class="modal__close-button"
           id="profile-modal-close"
           type="button"
           aria-label="Modal Close Button"
@@ -85,17 +130,17 @@
           <input
             type="text"
             class="modal__input"
-            id="profile-description-input"
-            name="description"
-            placeholder="Description"
+            id="profile-about-input"
+            name="about"
+            placeholder="About"
             minlength="2"
             maxlength="200"
             required
           />
-          <span class="modal__input-error" id="profile-description-input-error">
+          <span class="modal__input-error" id="profile-about-input-error">
           </span>
           <button
-            class="modal__button"
+            class="modal__button-submit"
             type="submit"
             aria-label="Modal Save Button"
           >
@@ -110,7 +155,7 @@
     <div class="modal" id="add-card-modal">
       <div class="modal__container">
         <button
-          class="modal__close"
+          class="modal__close-button"
           id="add-card-modal-close"
           type="button"
           aria-label="Modal Close Button"
@@ -140,11 +185,35 @@
           />
           <span class="modal__input-error" id="add-card-modal-URL-error"></span>
           <button
-            class="modal__button"
+            class="modal__button-submit"
             type="submit"
             aria-label="Modal Save Button"
           >
             Save
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Delete Card Confirmation Modal -->
+
+    <div class="modal" id="delete-card-modal">
+      <div class="modal__container">
+        <button
+          class="modal__close-button"
+          id="delete-card-modal-close"
+          type="button"
+          aria-label="Modal Close Button"
+        ></button>
+        <h2 class="modal__heading modal__heading_confirm">Are you sure?</h2>
+        <form class="modal__form" id="delete-card-form">
+          <button
+            class="modal__button-submit"
+            id="modal-delete-card-button"
+            type="submit"
+            aria-label="Modal Save Button"
+          >
+            Yes
           </button>
         </form>
       </div>
@@ -155,41 +224,45 @@
     <div class="modal" id="preview-image-modal">
       <div class="modal__preview-container">
         <button
-          class="modal__close"
+          class="modal__close-button"
           id="preview-modal-close"
           type="button"
           aria-label="Modal Close Button"
         ></button>
         <img
           class="modal__preview-image"
-          id="card-preview-image"
+          id="modal-preview-image"
           src="https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/yosemite.jpg"
           alt="Preview Image"
         />
-        <h2 class="modal__preview-title" id="card-preview-title"></h2>
+        <h2 class="modal__preview-title" id="modal-preview-title"></h2>
       </div>
     </div>
 
     <!-- Card Template Modal -->
 
     <template id="card-template">
-      <li class="card__list-item">
+      <li class="cards__list-item" id="cards-template-list">
         <div class="card__delete">
           <button
             class="card__delete-button"
-            id="card-delete"
+            id="card-delete-button"
             type="button"
-            aria-label="card Delete Button"
+            aria-label="Card Delete Button"
           ></button>
         </div>
         <img class="card__image" src="" alt="" />
         <div class="card__description">
           <h2 class="card__title"></h2>
-          <button
-            class="card__like-button"
-            type="button"
-            aria-label="Like Button"
-          ></button>
+          <div class="card__like_container">
+            <button
+              class="card__like-button"
+              id="card-like-button"
+              type="button"
+              aria-label="Like Button"
+            ></button>
+            <span class="card__like-counter">0</span>
+          </div>
         </div>
       </li>
     </template>

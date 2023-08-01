@@ -8,6 +8,33 @@
   height: 120px;
 }
 
+.profile__avatar-container {
+  position: relative;
+}
+
+.profile__avatar_edit {
+  position: absolute;
+  left: 47px;
+  top: 47px;
+  opacity: 0;
+}
+
+.profile__avatar-container:hover .profile__avatar_edit {
+  opacity: 100%;
+  transition: opacity 0.3s ease-in 0s;
+}
+
+.profile__avatar-container:hover .profile__avatar_edit:hover {
+  opacity: 60%;
+  cursor: pointer;
+}
+
+.profile__avatar-container:hover .profile__avatar {
+  opacity: 25%;
+  cursor: pointer;
+  transition: opacity 0.3s ease-in 0s;
+}
+
 .profile__info {
   margin: 0 30px 0 30px;
   display: grid;
@@ -18,7 +45,7 @@
   gap: 16px 18px;
 }
 
-.profile__title {
+.profile__name {
   margin: 0;
   font-style: normal;
   font-weight: 500;
@@ -47,7 +74,7 @@
   opacity: 60%;
 }
 
-.profile__description {
+.profile__about {
   margin: 0;
   font-style: normal;
   font-weight: 400;
