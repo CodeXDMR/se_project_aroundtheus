@@ -21,7 +21,7 @@ const api = new Api({
 // Find buttons.
 const editAvatButton = document.querySelector("#profile-avatar-container");
 const editProfButton = document.querySelector("#profile-edit-button");
-const addCardButton = document.querySelector("#add-card-button");
+const addCardButton = document.querySelector("#profile-add-card-button");
 
 // Find edit form input elements.
 const profNameInput = document.querySelector("#profile-title-input");
@@ -52,14 +52,20 @@ const editAvatPopup = new PopupWithForm(
   "Save",
   "Saving..."
 );
-
+editAvatPopup.setEventListeners();
 function handleAvatarSubmit(imageData) {
   editAvatPopup.showLoading();
   api
     .setAvatarAPI(imageData.avatURL)
     .then((res) => {
       userInfo.setAvatar(imageData.avatURL);
+    })
+    .then(() => {
       editAvatPopup.close();
+    })
+    .catch((err) => {
+      alert("Unexpected error, please try again.");
+      console.error("There was an error -", err);
     })
     .finally(() => {
       editAvatPopup.hideLoading();
@@ -73,14 +79,12 @@ editAvatButton.addEventListener("click", () => {
   avatEditFormValidator.resetForm();
 });
 
-editAvatPopup.setEventListeners();
-
 /* ------------------- Profile Info ------------------- */
 
 const userInfo = new UserInfo({
+  profAvatarSelector: selectors.profAvatar,
   profNameSelector: selectors.profName,
   profAboutSelector: selectors.profAbout,
-  profAvatarSelector: selectors.profAvatar,
 });
 
 const editProfInfo = new PopupWithForm(
@@ -89,8 +93,9 @@ const editProfInfo = new PopupWithForm(
   "Save",
   "Saving..."
 );
-
+editProfInfo.setEventListeners();
 function handleProfEditSubmit({ name, about }) {
+  editProfInfo.setEventListeners();
   editProfInfo.showLoading();
   api
     .setProfileInfoAPI(name, about)
@@ -99,8 +104,13 @@ function handleProfEditSubmit({ name, about }) {
         name: name,
         about: about,
       });
-
+    })
+    .then(() => {
       editProfInfo.close();
+    })
+    .catch((err) => {
+      alert("Unexpected error, please try again.");
+      console.error("There was an error -", err);
     })
     .finally(() => {
       editProfInfo.hideLoading();
@@ -115,12 +125,7 @@ editProfButton.addEventListener("click", () => {
   const profInfo = userInfo.getProfileInfo();
   profNameInput.value = profInfo.name;
   profAboutInput.value = profInfo.about;
-
-  // Reset validation for the avatar edit modal form
-  editFormValidator.resetForm();
 });
-
-editProfInfo.setEventListeners();
 
 /* -------------------Create Initial Cards --------------------- */
 
@@ -131,17 +136,17 @@ api.getInfoAPI().then(([cardData, userData]) => {
       items: cardData,
       renderer: (cardData) => {
         // Renders a new card
-        const cardList = createCard(cardData, userData._id);
+        const cardElement = createCard(cardData, userData._id);
 
         // Filters delete button access based on matching user ID.
         const userID = userData._id;
         const cardOwnerID = cardData.owner._id;
 
         if (userID !== cardOwnerID) {
-          card._removeDeleteButton();
+          card.removeDeleteButton();
         }
         // Adds each rendered card to the DOM.
-        cardSection.addItem(cardList);
+        cardSection.addItem(cardElement);
       },
     },
     selectors.cardsList
@@ -149,9 +154,7 @@ api.getInfoAPI().then(([cardData, userData]) => {
 
   // Renders each card via Section.js to the DOM.
   cardSection.renderItems();
-  const name = userData.name;
-  const about = userData.about;
-  userInfo.setProfileInfo({ name, about });
+  userInfo.setProfileInfo(userData);
   userInfo.setAvatar(userData.avatar);
 });
 
@@ -192,7 +195,7 @@ const addCardFormModal = new PopupWithForm(
   "Create",
   "Creating..."
 );
-
+addCardFormModal.setEventListeners();
 function handleAddCardSubmit({ name, link }) {
   addCardFormModal.showLoading();
   api
@@ -202,7 +205,13 @@ function handleAddCardSubmit({ name, link }) {
       const newCard = createCard(card, card.owner._id, card._id);
       // Add the new card to the section
       cardSection.addItem(newCard);
+    })
+    .then(() => {
       addCardFormModal.close();
+    })
+    .catch((err) => {
+      alert("Unexpected error, please try again.");
+      console.error("There was an error -", err);
     })
     .finally(() => {
       addCardFormModal.hideLoading();
@@ -216,9 +225,6 @@ addCardButton.addEventListener("click", () => {
   addFormValidator.resetForm();
 });
 
-// Set add form event listeners
-addCardFormModal.setEventListeners();
-
 /* ----------------- Delete Card ----------------- */
 
 const deleteCardModal = new PopupConfirm(
@@ -227,7 +233,7 @@ const deleteCardModal = new PopupConfirm(
   "Yes",
   "Deleting..."
 );
-
+deleteCardModal.setEventListeners();
 function handleDeleteCardPopup(card) {
   deleteCardModal.open();
   deleteCardModal.setSubmitAction(() => {
@@ -235,16 +241,20 @@ function handleDeleteCardPopup(card) {
     api
       .deleteCardAPI(card._cardId)
       .then((res) => {
-        card.removeDeleteCard(this);
+        card.removeDeleteCard();
+      })
+      .then(() => {
         deleteCardModal.close();
+      })
+      .catch((err) => {
+        alert("Unexpected error, please try again.");
+        console.error("There was an error -", err);
       })
       .finally(() => {
         deleteCardModal.hideLoading();
       });
   });
 }
-
-deleteCardModal.setEventListeners();
 
 /* ------------------- Likes ------------------- */
 

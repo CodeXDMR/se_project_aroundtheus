@@ -42,7 +42,6 @@ class Card {
   }
 
   _fillCardTemplate() {
-    this._cardImage = this._cardElement.querySelector(".card__image");
     this._cardImage.alt = this._profName;
     this._cardImage.src = this._imageLink;
     this._cardTitle.textContent = this._imageName;
@@ -50,7 +49,7 @@ class Card {
     this._renderLikes();
   }
 
-  _removeDeleteButton() {
+  removeDeleteButton() {
     this._cardDeleteButton.remove();
   }
 

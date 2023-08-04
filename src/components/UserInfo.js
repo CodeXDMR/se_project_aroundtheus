@@ -1,8 +1,8 @@
 class UserInfo {
   constructor({ profNameSelector, profAboutSelector, profAvatarSelector }) {
+    this._profAvatar = document.querySelector(profAvatarSelector);
     this._profName = document.querySelector(profNameSelector);
     this._profAbout = document.querySelector(profAboutSelector);
-    this._profAvatar = document.querySelector(profAvatarSelector);
   }
 
   // Get profile info from page.
@@ -26,5 +26,7 @@ class UserInfo {
   setAvatar(imgLink) {
     this._profAvatar.src = imgLink;
   }
+
+  openModal() {}
 }
 export default UserInfo;

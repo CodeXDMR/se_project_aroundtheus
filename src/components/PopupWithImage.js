@@ -10,7 +10,7 @@ class PopupWithImage extends Popup {
       "#modal-preview-title"
     );
 
-    super.addEventListeners();
+    super.setEventListeners();
   }
 
   open(imageData) {

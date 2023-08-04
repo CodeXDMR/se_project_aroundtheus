@@ -34,9 +34,9 @@
             />
             <img
               src="<%=require('./images/svg/edit-profile-pencil.svg')%>"
-              alt="Edit Icon"
+              alt="Avatar Edit Icon"
               class="profile__avatar_edit"
-              id="profile-avatar-edit-button"
+              id="open-avatar-modal-button"
             />
           </div>
           <div class="profile__info">
@@ -45,15 +45,15 @@
               class="profile__edit-button"
               id="profile-edit-button"
               type="button"
-              aria-label="Edit Button"
+              aria-label="Edit Modal Open Button"
             ></button>
             <p class="profile__about" id="profile-about"></p>
           </div>
           <button
             class="profile__add-button"
-            id="add-card-button"
+            id="profile-add-card-button"
             type="button"
-            aria-label="Add Button"
+            aria-label="Add Modal Open Button"
           ></button>
         </section>
 
@@ -72,9 +72,9 @@
       <div class="modal__container">
         <button
           class="modal__close-button"
-          id="avatar-card-modal-close"
+          id="modal-close-button"
           type="button"
-          aria-label="Modal Close Button"
+          aria-label="Avatar Modal Close Button"
         ></button>
         <h2 class="modal__heading">Change profile picture</h2>
         <form class="modal__form" id="avatar-edit-form">
@@ -92,8 +92,9 @@
           ></span>
           <button
             class="modal__button-submit"
+            id="modal-button-submit"
             type="submit"
-            aria-label="Modal Save Button"
+            aria-label="Avatar Modal Save Button"
           >
             Save
           </button>
@@ -107,9 +108,9 @@
       <div class="modal__container">
         <button
           class="modal__close-button"
-          id="profile-modal-close"
+          id="profile-edit-modal-close-button"
           type="button"
-          aria-label="Modal Close Button"
+          aria-label="Edit Modal Close Button"
         ></button>
         <h2 class="modal__heading">Edit profile</h2>
         <form class="modal__form" id="edit-card-form">
@@ -141,8 +142,9 @@
           </span>
           <button
             class="modal__button-submit"
+            id="profile-modal-button-submit"
             type="submit"
-            aria-label="Modal Save Button"
+            aria-label="Edit Modal Save Button"
           >
             Save
           </button>
@@ -156,9 +158,9 @@
       <div class="modal__container">
         <button
           class="modal__close-button"
-          id="add-card-modal-close"
+          id="add-card-modal-close-button"
           type="button"
-          aria-label="Modal Close Button"
+          aria-label="Add Card Modal Close Button"
         ></button>
         <h2 class="modal__heading">New place</h2>
         <form class="modal__form" id="add-card-form">
@@ -186,8 +188,9 @@
           <span class="modal__input-error" id="add-card-modal-URL-error"></span>
           <button
             class="modal__button-submit"
+            id="add-card-modal-button-submit"
             type="submit"
-            aria-label="Modal Save Button"
+            aria-label="Add Card Modal Save Button"
           >
             Save
           </button>
@@ -201,9 +204,9 @@
       <div class="modal__container">
         <button
           class="modal__close-button"
-          id="delete-card-modal-close"
+          id="delete-card-modal-close-button"
           type="button"
-          aria-label="Modal Close Button"
+          aria-label="Delete Card Modal Close Button"
         ></button>
         <h2 class="modal__heading modal__heading_confirm">Are you sure?</h2>
         <form class="modal__form" id="delete-card-form">
@@ -211,7 +214,7 @@
             class="modal__button-submit"
             id="modal-delete-card-button"
             type="submit"
-            aria-label="Modal Save Button"
+            aria-label="Delete Card Modal Save Button"
           >
             Yes
           </button>
@@ -225,7 +228,7 @@
       <div class="modal__preview-container">
         <button
           class="modal__close-button"
-          id="preview-modal-close"
+          id="preview-image-modal-close-button"
           type="button"
           aria-label="Modal Close Button"
         ></button>
