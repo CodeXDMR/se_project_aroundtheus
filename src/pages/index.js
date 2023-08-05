@@ -95,7 +95,6 @@ const editProfInfo = new PopupWithForm(
 );
 editProfInfo.setEventListeners();
 function handleProfEditSubmit({ name, about }) {
-  editProfInfo.setEventListeners();
   editProfInfo.showLoading();
   api
     .setProfileInfoAPI(name, about)
@@ -130,33 +129,32 @@ editProfButton.addEventListener("click", () => {
 /* -------------------Create Initial Cards --------------------- */
 
 // Receives card data(cardData) from API and renders data to cards.
-api.getInfoAPI().then(([cardData, userData]) => {
-  cardSection = new Section(
-    {
-      items: cardData,
-      renderer: (cardData) => {
-        // Renders a new card
-        const cardElement = createCard(cardData, userData._id);
+api
+  .getInfoAPI()
+  .then(([cardData, userData]) => {
+    cardSection = new Section(
+      {
+        items: cardData,
+        renderer: (cardData) => {
+          // Renders a new card
+          const cardElement = createCard(cardData, userData._id);
 
-        // Filters delete button access based on matching user ID.
-        const userID = userData._id;
-        const cardOwnerID = cardData.owner._id;
-
-        if (userID !== cardOwnerID) {
-          card.removeDeleteButton();
-        }
-        // Adds each rendered card to the DOM.
-        cardSection.addItem(cardElement);
+          // Adds each rendered card to the DOM.
+          cardSection.addItem(cardElement);
+        },
       },
-    },
-    selectors.cardsList
-  );
+      selectors.cardsList
+    );
 
-  // Renders each card via Section.js to the DOM.
-  cardSection.renderItems();
-  userInfo.setProfileInfo(userData);
-  userInfo.setAvatar(userData.avatar);
-});
+    // Renders each card via Section.js to the DOM.
+    cardSection.renderItems();
+    userInfo.setProfileInfo(userData);
+    userInfo.setAvatar(userData.avatar);
+  })
+  .catch((err) => {
+    alert("Unexpected error, please try again.");
+    console.error("There was an error -", err);
+  });
 
 /* -------------------Create Card Handler --------------------- */
 
@@ -241,7 +239,7 @@ function handleDeleteCardPopup(card) {
     api
       .deleteCardAPI(card._cardId)
       .then((res) => {
-        card.removeDeleteCard();
+        card.deleteCard();
       })
       .then(() => {
         deleteCardModal.close();
@@ -260,13 +258,25 @@ function handleDeleteCardPopup(card) {
 
 function handleLikeClick(card) {
   if (card.isLiked()) {
-    api.removeLikeAPI(card._cardId).then((res) => {
-      card.setLikes(res.likes);
-    });
+    api
+      .removeLikeAPI(card._cardId)
+      .then((res) => {
+        card.setLikes(res.likes);
+      })
+      .catch((err) => {
+        alert("Unexpected error, please try again.");
+        console.error("There was an error -", err);
+      });
   } else {
-    api.addLikeAPI(card._cardId).then((res) => {
-      card.setLikes(res.likes);
-    });
+    api
+      .addLikeAPI(card._cardId)
+      .then((res) => {
+        card.setLikes(res.likes);
+      })
+      .catch((err) => {
+        alert("Unexpected error, please try again.");
+        console.error("There was an error -", err);
+      });
   }
 }
 
