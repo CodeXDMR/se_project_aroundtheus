@@ -1,7 +1,6 @@
-# Project 8: Around The U.S.
+# Around The U.S.
 
-GitHub Pages - [Link](https://github.com/CodeXDMR/se_project_aroundtheus/deployments/github-pages)
-</br></br>
+GitHub Pages - [Link](https://codexdmr.github.io/se_project_aroundtheus/)
 
 ### Overview
 
@@ -9,14 +8,12 @@ GitHub Pages - [Link](https://github.com/CodeXDMR/se_project_aroundtheus/deploym
 - Figma
 - Images
 - Notes
-  </br></br>
 
 **_Intro_**
 
 ---
 
 This project was developed to provide visitors with a resource on national parks in the United States of America. Six of the most known parks were selected with more to be added at a later date.
-</br></br>
 
 **_Figma_**
 
@@ -24,7 +21,6 @@ This project was developed to provide visitors with a resource on national parks
 
 Project design was provided on
 [Figma](https://www.figma.com/file/ii4xxsJ0ghevUOcssTlHZv/Sprint-3%3A-Around-the-US?node-id=0%3A1)
-</br></br>
 
 **Images**
 
@@ -32,7 +28,6 @@ Project design was provided on
 
 All the photos used in this project were compressed using
 [tinypng.com](https://tinypng.com/).
-<br /><br />
 
 **_Notes_**
 
