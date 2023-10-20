@@ -1,120 +1,287 @@
 /* --------------------- IMPORT CLASSES --------------------- */
 import "./index.css";
+import Api from "../components/Api.js";
 import Card from "../components/Card.js";
-import PopupWithImage from "../components/PopupWithImage.js";
-import PopupWithForm from "../components/PopupWithForm.js";
-import UserInfo from "../components/UserInfo.js";
 import FormValidator from "../components/FormValidator.js";
+import PopupWithForm from "../components/PopupWithForm.js";
+import PopupWithImage from "../components/PopupWithImage.js";
+import PopupConfirm from "../components/PopupConfirm.js";
 import Section from "../components/Section.js";
-import { initialCards, selectors, config } from "../utils/constants.js";
+import UserInfo from "../components/UserInfo.js";
+import { selectors, config } from "../utils/constants.js";
 
-// Find Profile and Add Card buttons.
-const profileEditButton = document.querySelector("#profile-edit-button");
-const addCardButton = document.querySelector("#add-card-button");
+const api = new Api({
+  baseUrl: "https://around.nomoreparties.co/v1/cohort-3-en",
+  headers: {
+    authorization: "0d34a92c-1da7-4adc-abc0-e2b3b38a4b1f",
+    "Content-Type": "application/json",
+  },
+});
+
+// Find buttons.
+const editAvatButton = document.querySelector("#profile-avatar-container");
+const editProfButton = document.querySelector("#profile-edit-button");
+const addCardButton = document.querySelector("#profile-add-card-button");
 
 // Find edit form input elements.
-const profileTitleInput = document.querySelector("#profile-title-input");
-const profileDescriptionInput = document.querySelector(
-  "#profile-description-input"
-);
+const profNameInput = document.querySelector("#profile-title-input");
+const profAboutInput = document.querySelector("#profile-about-input");
 
 //  Find form elements.
-const profileEditForm = document.forms["edit-card-form"];
-const addCardModalForm = document.forms["add-card-form"];
+const profEditForm = document.forms["edit-card-form"];
+const addCardForm = document.forms["add-card-form"];
+const avatEditForm = document.forms["avatar-edit-form"];
 
 /* ------------------- Form Validation -------------------- */
 
-const addFormValidator = new FormValidator(config, addCardModalForm);
-const editFormValidator = new FormValidator(config, profileEditForm);
+const addFormValidator = new FormValidator(config, addCardForm);
+const editFormValidator = new FormValidator(config, profEditForm);
+const avatEditFormValidator = new FormValidator(config, avatEditForm);
 
 /* --------------------- Card Handler --------------------- */
 
-// Create image Popup instance.
-const cardPreviewPopup = new PopupWithImage(selectors.previewPopup);
+let cardSection;
+let card;
 
-// This function creates a new card
-function createCard(cardData) {
-  const cardElement = new Card(
-    {
-      cardData,
-      handleImageClick: (imageData) => {
-        cardPreviewPopup.open(imageData);
-      },
-    },
-    selectors.cardTemplate
-  );
+/* --------------- Edit Avatar Card --------------- */
 
-  return cardElement.getView();
+// Edit profile Avatar thumbnail imageData {avatURL}
+const editAvatPopup = new PopupWithForm(
+  selectors.editAvatFormModal,
+  handleAvatarSubmit,
+  "Save",
+  "Saving..."
+);
+editAvatPopup.setEventListeners();
+function handleAvatarSubmit(imageData) {
+  editAvatPopup.showLoading();
+  api
+    .setAvatarAPI(imageData.avatURL)
+    .then((res) => {
+      userInfo.setAvatar(imageData.avatURL);
+    })
+    .then(() => {
+      editAvatPopup.close();
+    })
+    .catch((err) => {
+      alert("Unexpected error, please try again.");
+      console.error("There was an error -", err);
+    })
+    .finally(() => {
+      editAvatPopup.hideLoading();
+    });
 }
 
-// Create a section of cards
-const cardSection = new Section(
-  {
-    items: initialCards,
-    renderer: (cardData) => {
-      // Create a new card
-      const cardElement = createCard(cardData);
-
-      // Display each card
-      cardSection.addItem(cardElement);
-    },
-  },
-  selectors.cardsList
-);
-cardSection.renderItems(initialCards);
+editAvatButton.addEventListener("click", () => {
+  // Open the avatar edit modal form
+  editAvatPopup.open();
+  // Reset validation for the avatar edit modal form
+  avatEditFormValidator.resetForm();
+});
 
 /* ------------------- Profile Info ------------------- */
 
-const userInfo = new UserInfo(
-  selectors.profileName,
-  selectors.profileProfession
+const userInfo = new UserInfo({
+  profAvatarSelector: selectors.profAvatar,
+  profNameSelector: selectors.profName,
+  profAboutSelector: selectors.profAbout,
+});
+
+const editProfInfo = new PopupWithForm(
+  selectors.editProfFormModal,
+  handleProfEditSubmit,
+  "Save",
+  "Saving..."
 );
-/* --------------------- Edit Card -------------------- */
+editProfInfo.setEventListeners();
+function handleProfEditSubmit({ name, about }) {
+  editProfInfo.showLoading();
+  api
+    .setProfileInfoAPI(name, about)
+    .then((dataAPI) => {
+      userInfo.setProfileInfo({
+        name: name,
+        about: about,
+      });
+    })
+    .then(() => {
+      editProfInfo.close();
+    })
+    .catch((err) => {
+      alert("Unexpected error, please try again.");
+      console.error("There was an error -", err);
+    })
+    .finally(() => {
+      editProfInfo.hideLoading();
+    });
+}
 
-// Create the edit form instance
-const editFormPopup = new PopupWithForm(selectors.editFormPopup, (values) => {
-  // Add the form's input to the profile section
-  userInfo.setUserInfo(values.name, values.description);
+editProfButton.addEventListener("click", () => {
+  // Open the avatar edit modal form
+  editProfInfo.open();
+
+  // Add the profile info from the page to the form's fields
+  const profInfo = userInfo.getProfileInfo();
+  profNameInput.value = profInfo.name;
+  profAboutInput.value = profInfo.about;
 });
 
-// Open the modal when users click on the edit button
-profileEditButton.addEventListener("click", () => {
-  // Get profile info and add to the form fields
-  const profileInfo = userInfo.getUserInfo();
+/* -------------------Create Initial Cards --------------------- */
 
-  // Add the profile info on the page to the form's fields
-  profileTitleInput.value = profileInfo.name;
-  profileDescriptionInput.value = profileInfo.description;
+// Receives card data(cardData) from API and renders data to cards.
+api
+  .getInfoAPI()
+  .then(([cardData, userData]) => {
+    cardSection = new Section(
+      {
+        items: cardData,
+        renderer: (cardData) => {
+          // Renders a new card
+          const cardElement = createCard(cardData, userData._id);
 
-  // Open modal
-  editFormPopup.open();
-  editFormValidator.resetForm();
-});
+          // Adds each rendered card to the DOM.
+          cardSection.addItem(cardElement);
+        },
+      },
+      selectors.cardsList
+    );
 
-// Set edit form event listeners
-editFormPopup.setEventListeners();
+    // Renders each card via Section.js to the DOM.
+    cardSection.renderItems();
+    userInfo.setProfileInfo(userData);
+    userInfo.setAvatar(userData.avatar);
+  })
+  .catch((err) => {
+    alert("Unexpected error, please try again.");
+    console.error("There was an error -", err);
+  });
+
+/* -------------------Create Card Handler --------------------- */
+
+// This function creates a new card
+// cardData = API data { name, link, likes, owner, _id } from card.
+// userID = API data ID from profile user.
+function createCard(cardData, userID) {
+  const cardSelector = selectors.cardTemplate;
+
+  card = new Card(
+    cardData,
+    cardSelector,
+    handleImageClick,
+    handleDeleteCardPopup,
+    handleLikeClick,
+    userID
+  );
+
+  return card.getView();
+}
+/* ------------------- Preview Popup ------------------- */
+
+// Create image Popup instance.
+const cardPrevPopup = new PopupWithImage(selectors.previewImageModal);
+
+// imageData = {link:, name:}
+function handleImageClick(imageData) {
+  cardPrevPopup.open(imageData);
+}
 
 /* ------------------- Add Card ------------------- */
 
-const addFormPopup = new PopupWithForm(selectors.addFormPopup, (formData) => {
-  // Create a new card
-  const newCard = createCard(formData);
-
-  // Add the new card to the section
-  cardSection.addItem(newCard);
-});
+const addCardFormModal = new PopupWithForm(
+  selectors.addCardFormModal,
+  handleAddCardSubmit,
+  "Create",
+  "Creating..."
+);
+addCardFormModal.setEventListeners();
+function handleAddCardSubmit({ name, link }) {
+  addCardFormModal.showLoading();
+  api
+    .addCardAPI({ name, link })
+    .then((card) => {
+      // Create a new card
+      const newCard = createCard(card, card.owner._id, card._id);
+      // Add the new card to the section
+      cardSection.addItem(newCard);
+    })
+    .then(() => {
+      addCardFormModal.close();
+    })
+    .catch((err) => {
+      alert("Unexpected error, please try again.");
+      console.error("There was an error -", err);
+    })
+    .finally(() => {
+      addCardFormModal.hideLoading();
+    });
+}
 // Open the modal when users click on the add button
 addCardButton.addEventListener("click", () => {
   // Open the add card form
-  addFormPopup.open();
+  addCardFormModal.open();
   // Reset validation for the add card form
   addFormValidator.resetForm();
 });
 
-// Set add form event listeners
-addFormPopup.setEventListeners();
+/* ----------------- Delete Card ----------------- */
+
+const deleteCardModal = new PopupConfirm(
+  selectors.delCardConfirmModal,
+  handleDeleteCardPopup,
+  "Yes",
+  "Deleting..."
+);
+deleteCardModal.setEventListeners();
+function handleDeleteCardPopup(card) {
+  deleteCardModal.open();
+  deleteCardModal.setSubmitAction(() => {
+    deleteCardModal.showLoading();
+    api
+      .deleteCardAPI(card._cardId)
+      .then((res) => {
+        card.deleteCard();
+      })
+      .then(() => {
+        deleteCardModal.close();
+      })
+      .catch((err) => {
+        alert("Unexpected error, please try again.");
+        console.error("There was an error -", err);
+      })
+      .finally(() => {
+        deleteCardModal.hideLoading();
+      });
+  });
+}
+
+/* ------------------- Likes ------------------- */
+
+function handleLikeClick(card) {
+  if (card.isLiked()) {
+    api
+      .removeLikeAPI(card._cardId)
+      .then((res) => {
+        card.setLikes(res.likes);
+      })
+      .catch((err) => {
+        alert("Unexpected error, please try again.");
+        console.error("There was an error -", err);
+      });
+  } else {
+    api
+      .addLikeAPI(card._cardId)
+      .then((res) => {
+        card.setLikes(res.likes);
+      })
+      .catch((err) => {
+        alert("Unexpected error, please try again.");
+        console.error("There was an error -", err);
+      });
+  }
+}
 
 /* ------------------- Enable Validation ------------------- */
 
 addFormValidator.enableValidation();
 editFormValidator.enableValidation();
+avatEditFormValidator.enableValidation();

@@ -1,4 +1,4 @@
-.card__list {
+.cards__list {
   margin: 47.25px 0 0;
   display: grid;
   justify-content: center;
@@ -8,7 +8,7 @@
   list-style-type: none;
 }
 
-.card__list-item {
+.cards__list-item {
   background-color: #fff;
   border-radius: 10px;
 }
@@ -45,7 +45,10 @@
 .card__description {
   margin: 25px 30px 25px 20px;
   display: flex;
+  align-items: center;
   justify-content: space-between;
+  padding: 0;
+  color: #000;
 }
 
 .card__title {
@@ -57,7 +60,12 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  color: #000;
+}
+
+.card__like_container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .card__like-button {
@@ -80,8 +88,17 @@
   opacity: 60%;
 }
 
+.card__like-counter {
+  font-family: "Inter";
+  font-weight: 400;
+  text-align: center;
+  line-height: 16px;
+  font-size: 13px;
+  margin-top: auto;
+}
+
 @media screen and (max-width: 675px) {
-  .card__list {
+  .cards__list {
     margin: 36px auto 0;
   }
 }

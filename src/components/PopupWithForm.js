@@ -1,11 +1,23 @@
 import Popup from "./Popup.js";
 
 class PopupWithForm extends Popup {
-  constructor(popupSelector, handleFormSubmit) {
+  constructor(popupSelector, handleFormSubmit, buttonText, loadingButtonText) {
     super({ popupSelector });
     this._popupForm = this._popupElement.querySelector(".modal__form");
-    this._button = this._popupElement.querySelector(".modal__button");
+    this._submitButton = this._popupElement.querySelector(
+      ".modal__button-submit"
+    );
     this._handleFormSubmit = handleFormSubmit;
+    this._submitButtonText = buttonText;
+    this._loadingButtonText = loadingButtonText;
+  }
+
+  showLoading() {
+    this._submitButton.textContent = this._loadingButtonText;
+  }
+
+  hideLoading() {
+    this._submitButton.textContent = this._submitButtonText;
   }
 
   _getInputValues() {
@@ -24,25 +36,13 @@ class PopupWithForm extends Popup {
     this._popupForm.addEventListener("submit", (event) => {
       event.preventDefault();
       this._handleFormSubmit(this._getInputValues());
-      this.close();
     });
   }
 
-  open() {
-    super.open();
-    this._button.textContent = "Save";
-  }
-
   close() {
-    this._popupForm.reset();
     super.close();
+    this._popupForm.reset();
   }
 }
 
 export default PopupWithForm;
-
-// index.js
-// const newCardPopup = new PopupWithForm("#add-card-modal", () => {});
-// newCardPopup.open();
-
-// newCardPopup.close();
